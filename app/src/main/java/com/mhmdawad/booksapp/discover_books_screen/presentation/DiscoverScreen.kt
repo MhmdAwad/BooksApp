@@ -1,21 +1,15 @@
 package com.mhmdawad.booksapp.discover_books_screen.presentation
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -30,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.mhmdawad.booksapp.R
@@ -40,74 +33,78 @@ import com.mhmdawad.booksapp.ui.theme.lightBlue
 
 
 @Composable
+@ExperimentalFoundationApi
 fun DiscoverScreen(
     viewModel: BooksViewModel = hiltViewModel()
 ) {
-    val bookList by remember { viewModel.booksListState }
+    val booksList by remember { viewModel.booksListState }
     val isLoading by remember { viewModel.isLoading }
     val errorOccurred by remember { viewModel.errorOccurred }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 40.dp)
+            .padding(start = 16.dp, end = 16.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
+        CompositionLocalProvider(
+            LocalOverscrollConfiguration provides null
         ) {
-            Text(
-                text = "Explore thousands of books",
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold,
-                )
+
+            LazyColumn(
+                content = {
+                    item {
+                        Text(
+                            text = "Explore thousands of books",
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                            modifier = Modifier
+                                .padding(top = 40.dp)
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                    item {
+                        SearchBox(
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                    item {
+                        Text(
+                            text = "Discover Books",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                    items(booksList.size) { index ->
+                        BookItemEntity(
+                            modifier = Modifier
+                                .height(160.dp)
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .shadow(4.dp, RoundedCornerShape(8.dp))
+                                .background(Color.White),
+                            booksList[index]
+                        )
+                    }
+                }
             )
-            Spacer(modifier = Modifier.height(20.dp))
-            SearchBox(
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            BooksList(
-                booksList = bookList
-            )
+
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(horizontal = 16.dp)
+//        ) {
+//
+//        }
         }
     }
 }
 
-@Composable
-fun BooksList(
-    modifier: Modifier = Modifier,
-    booksList: List<BooksModelEntity>
-) {
-    Column(modifier) {
-        Text(
-            text = "Discover Books",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        LazyColumn(
-            content = {
-                items(booksList.size) { index ->
-                    BookItemEntity(
-                        modifier = Modifier
-                            .height(160.dp)
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .shadow(4.dp, RoundedCornerShape(8.dp))
-                            .background(Color.White),
-                        booksList[index]
-                    )
-                }
-            }
-        )
-
-    }
-}
 
 @Composable
 fun BookItemEntity(
@@ -142,7 +139,7 @@ fun BookItemEntity(
                         modifier = Modifier.scale(0.4f)
                     )
                 },
-                )
+            )
             Spacer(modifier = Modifier.width(20.dp))
             Column(
                 horizontalAlignment = Alignment.Start,
