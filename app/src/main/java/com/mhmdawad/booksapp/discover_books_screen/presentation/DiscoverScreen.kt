@@ -68,7 +68,10 @@ fun DiscoverScreen(
                     item {
                         SearchBox(
                             modifier = Modifier
-                                .padding(horizontal = 15.dp)
+                                .padding(horizontal = 15.dp),
+                            onSearch = { searchQuery ->
+                                viewModel.searchForBook(searchQuery)
+                            }
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                     }
@@ -94,13 +97,6 @@ fun DiscoverScreen(
                 }
             )
 
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(horizontal = 16.dp)
-//        ) {
-//
-//        }
         }
     }
 }
@@ -197,7 +193,8 @@ fun BookItemEntity(
 
 @Composable
 fun SearchBox(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSearch: (String) -> Unit
 ) {
     var textFieldValue by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(true) }
@@ -216,6 +213,7 @@ fun SearchBox(
             value = textFieldValue,
             onValueChange = {
                 textFieldValue = it
+                onSearch(it)
             },
             singleLine = true,
             maxLines = 1,

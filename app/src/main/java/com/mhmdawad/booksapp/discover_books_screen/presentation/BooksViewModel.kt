@@ -16,6 +16,8 @@ class BooksViewModel @Inject constructor(
     private val getAllBooksUseCase: GetAllBooksUseCase
 ) : ViewModel() {
 
+    private val _booksList = mutableListOf<BooksModelEntity>()
+
     private val _booksListState = mutableStateOf<List<BooksModelEntity>>(listOf())
     val booksListState: State<List<BooksModelEntity>> = _booksListState
 
@@ -33,10 +35,24 @@ class BooksViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             when (val result = getAllBooksUseCase()) {
-                is Resource.Success -> _booksListState.value = result.data ?: emptyList()
+                is Resource.Success -> {
+                    _booksList.addAll(result.data?: emptyList())
+                    _booksListState.value = _booksList
+                }
                 is Resource.Error -> _errorOccurred.value = result.msg ?: ""
                 is Resource.Loading -> _isLoading.value = true
                 is Resource.Idle -> _isLoading.value = false
+            }
+        }
+    }
+
+    fun searchForBook(searchQuery: String) {
+        if(searchQuery.isEmpty()){
+            _booksListState.value = _booksList
+        }else{
+            _booksListState.value = _booksList.filter {
+                it.title.contains(searchQuery, true) ||
+                        it.author.contains(searchQuery, true)
             }
         }
     }
