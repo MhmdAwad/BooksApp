@@ -2,12 +2,8 @@ package com.mhmdawad.booksapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
-
 val appLightBackground = Color(0xFFF9F9F9)
 val appDarkBackground = Color(0xFF353738)
 
-val lightBlue = Color(0xFFCFDFEF)
+val lightBlue = Color(0x80A7C1DC)
+val darkBlue = Color(0xFF0064CC)

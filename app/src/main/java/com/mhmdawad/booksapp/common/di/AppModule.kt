@@ -60,14 +60,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBooksDatabase(@ApplicationContext context: Context): BooksDao =
+    fun provideBooksDatabase(@ApplicationContext context: Context): BooksDatabase =
         Room.databaseBuilder(
             context,
             BooksDatabase::class.java,
             Constants.BOOKS_DATABASE_NAME
         )
             .build()
-            .booksDao()
+
+    @Provides
+    @Singleton
+    fun provideBooksDao(booksDatabase: BooksDatabase) =
+        booksDatabase.booksDao()
 
     @Provides
     @Singleton

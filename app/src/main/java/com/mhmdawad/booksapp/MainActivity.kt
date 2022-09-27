@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = Constants.DISCOVER_SCREEN
                 ) {
                     composable(route = Constants.DISCOVER_SCREEN) {
-
+                        DiscoverScreen()
                     }
                     composable(
                         route = Constants.DETAIL_SCREEN,
