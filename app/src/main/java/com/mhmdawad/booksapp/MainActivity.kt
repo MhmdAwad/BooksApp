@@ -5,18 +5,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.mhmdawad.booksapp.book_detail_screen.presentation.DetailScreen
+import com.mhmdawad.booksapp.book_detail_screen.presentation.getDetailRoute
 import com.mhmdawad.booksapp.common.utils.AssetParamType
 import com.mhmdawad.booksapp.common.utils.Constants
 import com.mhmdawad.booksapp.discover_books_screen.domain.model.BooksModelEntity
@@ -38,10 +33,10 @@ class MainActivity : ComponentActivity() {
                     startDestination = Constants.DISCOVER_SCREEN
                 ) {
                     composable(route = Constants.DISCOVER_SCREEN) {
-                        DiscoverScreen()
+                        DiscoverScreen(navController = navController)
                     }
                     composable(
-                        route = Constants.DETAIL_SCREEN,
+                        route = getDetailRoute(),
                         arguments = listOf(
                             navArgument(Constants.BOOK_ARGUMENT_MODEL) {
                                 type = AssetParamType()
@@ -57,6 +52,9 @@ class MainActivity : ComponentActivity() {
                             } else {
                                 it.arguments?.getParcelable(Constants.BOOK_ARGUMENT_MODEL)
                             }
+                        }
+                        bookModel?.let {
+                            DetailScreen(it)
                         }
                     }
                 }

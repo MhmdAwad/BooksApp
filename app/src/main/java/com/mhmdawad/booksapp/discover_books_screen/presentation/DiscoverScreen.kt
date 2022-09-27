@@ -1,11 +1,13 @@
 package com.mhmdawad.booksapp.discover_books_screen.presentation
 
+import android.net.Uri
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -25,9 +27,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import com.google.gson.Gson
 import com.mhmdawad.booksapp.R
+import com.mhmdawad.booksapp.book_detail_screen.presentation.getDetailRoute
 import com.mhmdawad.booksapp.discover_books_screen.domain.model.BooksModelEntity
 import com.mhmdawad.booksapp.ui.theme.darkBlue
 import com.mhmdawad.booksapp.ui.theme.lightBlue
@@ -36,7 +41,8 @@ import com.mhmdawad.booksapp.ui.theme.lightBlue
 @Composable
 @ExperimentalFoundationApi
 fun DiscoverScreen(
-    viewModel: BooksViewModel = hiltViewModel()
+    viewModel: BooksViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val booksList by remember { viewModel.booksListState }
     val isLoading by remember { viewModel.isLoading }
@@ -94,7 +100,8 @@ fun DiscoverScreen(
                                 .padding(8.dp)
                                 .shadow(4.dp, RoundedCornerShape(8.dp))
                                 .background(Color.White),
-                            booksList[index]
+                            booksList[index],
+                            navController
                         )
                     }
                 }
@@ -147,12 +154,16 @@ fun DiscoverScreen(
 @Composable
 fun BookItemEntity(
     modifier: Modifier = Modifier,
-    book: BooksModelEntity
+    book: BooksModelEntity,
+    navController: NavController
 ) {
     Box(
         modifier = modifier
             .clickable {
-
+                val json = Uri.encode(Gson().toJson(book))
+                navController.navigate(
+                    getDetailRoute(json)
+                )
             }
     ) {
         Row(
