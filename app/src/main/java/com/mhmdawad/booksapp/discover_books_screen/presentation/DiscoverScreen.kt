@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -51,6 +52,8 @@ fun DiscoverScreen(
         ) {
 
             LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
                 content = {
                     item {
                         Text(
@@ -86,7 +89,7 @@ fun DiscoverScreen(
                     items(booksList.size) { index ->
                         BookItemEntity(
                             modifier = Modifier
-                                .height(160.dp)
+                                .height(180.dp)
                                 .fillMaxWidth()
                                 .padding(8.dp)
                                 .shadow(4.dp, RoundedCornerShape(8.dp))
@@ -96,6 +99,45 @@ fun DiscoverScreen(
                     }
                 }
             )
+            if (isLoading)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Center
+                ) {
+                    CircularProgressIndicator()
+                }
+
+            if (errorOccurred.isNotBlank())
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Center
+                ) {
+                    Column(
+                        horizontalAlignment = CenterHorizontally
+                    ) {
+                        Text(
+                            text = errorOccurred,
+                            fontSize = 12.sp,
+                            color = Color.DarkGray
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(modifier = Modifier
+                            .background(lightBlue, RoundedCornerShape(14.dp))
+                            .clip(RoundedCornerShape(14.dp))
+                            .clickable {
+                                viewModel.getBooksList()
+                            }
+                            .padding(vertical = 6.dp, horizontal = 12.dp)) {
+                            Text(
+                                text = stringResource(id = R.string.try_again),
+                                color = darkBlue,
+
+                                )
+                        }
+                    }
+                }
 
         }
     }
@@ -148,33 +190,35 @@ fun BookItemEntity(
                     color = Color.Gray,
                     fontSize = 12.sp,
                 )
+                Column {
 
-                Text(
-                    text = book.title,
-                    color = Color.Black,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painterResource(id = R.drawable.ic_pages),
-                        contentDescription = "Pages",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = book.pages.toString(),
-                        color = Color.DarkGray,
-                        fontSize = 12.sp
+                        text = book.title,
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painterResource(id = R.drawable.ic_pages),
+                            contentDescription = "Pages",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = book.pages.toString(),
+                            color = Color.DarkGray,
+                            fontSize = 11.sp
+                        )
+                    }
                 }
 
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(10.dp))
+                        .clip(RoundedCornerShape(12.dp))
                         .background(lightBlue)
                         .padding(vertical = 2.dp, horizontal = 10.dp)
                 ) {
@@ -184,8 +228,6 @@ fun BookItemEntity(
                         fontSize = 15.sp
                     )
                 }
-
-
             }
         }
     }
@@ -219,7 +261,7 @@ fun SearchBox(
             maxLines = 1,
             textStyle = TextStyle(
                 color = Color.Black,
-                fontSize = 12.sp,
+                fontSize = 14.sp,
             ),
         )
 
@@ -232,7 +274,7 @@ fun SearchBox(
                     .padding(horizontal = 8.dp),
                 style = TextStyle(
                     color = Color.LightGray,
-                    fontSize = 12.sp
+                    fontSize = 14.sp
                 )
 
             )

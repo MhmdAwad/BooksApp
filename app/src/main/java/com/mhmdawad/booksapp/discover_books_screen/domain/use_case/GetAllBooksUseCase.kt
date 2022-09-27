@@ -5,18 +5,22 @@ import com.mhmdawad.booksapp.common.utils.Resource
 import com.mhmdawad.booksapp.common.utils.ResourceHandler
 import com.mhmdawad.booksapp.discover_books_screen.domain.model.BooksModelEntity
 import com.mhmdawad.booksapp.discover_books_screen.domain.repository.BooksRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetAllBooksUseCase @Inject constructor(
     private val booksRepository: BooksRepository,
     private val resourceHandler: ResourceHandler
 ) {
-    suspend operator fun invoke(): Resource<List<BooksModelEntity>> {
+    operator fun invoke(): Flow<Resource<List<BooksModelEntity>>> = flow{
+        emit(Resource.Loading())
         val result = booksRepository.getBooksData()
-        return if(result.isNotEmpty()){
-            Resource.Success(result)
+        if(result.isNotEmpty()){
+            emit(Resource.Success(result))
         }else{
-            Resource.Error(resourceHandler.getString(R.string.an_error_occurred))
+            emit(Resource.Error(resourceHandler.getString(R.string.an_error_occurred)))
         }
+        emit(Resource.Idle())
     }
 }
