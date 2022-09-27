@@ -46,6 +46,13 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    flavorDimensions 'uatLatest'
+    productFlavors {
+        uatLatest {
+            dimension 'uatLatest'
+            buildConfigField("String", "BASE_URL", "\"http://192.168.100.122:8080/\"")
+        }
+    }
 }
 
 dependencies {
