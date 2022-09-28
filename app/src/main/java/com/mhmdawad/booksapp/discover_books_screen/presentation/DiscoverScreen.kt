@@ -34,6 +34,7 @@ import com.google.gson.Gson
 import com.mhmdawad.booksapp.R
 import com.mhmdawad.booksapp.book_detail_screen.presentation.getDetailRoute
 import com.mhmdawad.booksapp.discover_books_screen.domain.model.BooksModelEntity
+import com.mhmdawad.booksapp.ui.theme.Roboto
 import com.mhmdawad.booksapp.ui.theme.darkBlue
 import com.mhmdawad.booksapp.ui.theme.lightBlue
 
@@ -67,7 +68,7 @@ fun DiscoverScreen(
                             style = TextStyle(
                                 color = Color.Black,
                                 fontSize = 28.sp,
-                                fontWeight = FontWeight.Bold,
+                                fontWeight = FontWeight.Bold
                             ),
                             modifier = Modifier
                                 .padding(top = 40.dp)

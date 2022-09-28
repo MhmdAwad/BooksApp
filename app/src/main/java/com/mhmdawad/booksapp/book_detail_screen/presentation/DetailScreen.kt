@@ -2,9 +2,7 @@ package com.mhmdawad.booksapp.book_detail_screen.presentation
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,48 +43,57 @@ fun DetailScreen(
     book: BooksModelEntity,
     navController: NavController,
 ) {
-    Box(
+    val scrollable = rememberScrollState()
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollable)
     ) {
-        Column {
-            ScreenHeader(navController)
-            ConstraintLayout(
+        ScreenHeader(navController)
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            val (image, box) = createRefs()
+            Box(
                 modifier = Modifier
+                    .shadow(4.dp, RoundedCornerShape(16.dp))
+                    .background(Color.White)
+                    .constrainAs(box) {
+                        top.linkTo(parent.top, margin = 150.dp)
+                        start.linkTo(parent.start, margin = 16.dp)
+                        end.linkTo(parent.end, margin = 16.dp)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.value(210.dp)
+                    }
+            )
+
+            BookDetails(
+                modifier = Modifier
+                    .padding(top = 80.dp)
                     .fillMaxWidth()
-            ) {
-                val (image, box) = createRefs()
-                Box(
-                    modifier = Modifier
-                        .shadow(4.dp, RoundedCornerShape(16.dp))
-                        .background(Color.White)
-                        .constrainAs(box) {
-                            top.linkTo(parent.top, margin = 150.dp)
-                            start.linkTo(parent.start, margin = 16.dp)
-                            end.linkTo(parent.end, margin = 16.dp)
-                            width = Dimension.fillToConstraints
-                            height = Dimension.value(210.dp)
-                        }
-                )
-
-                BookDetails(
-                    modifier = Modifier
-                        .padding(top = 80.dp)
-                        .fillMaxWidth()
-                        .constrainAs(image) {
-                            top.linkTo(box.top)
-                            bottom.linkTo(box.top)
-                            start.linkTo(box.start)
-                            end.linkTo(box.end)
-                        },
-                    book = book
-                )
-            }
-            Spacer(modifier = Modifier.height(15.dp))
-            BookDescription(book)
-            VisitBook(bookLink = book.link)
+                    .constrainAs(image) {
+                        top.linkTo(box.top)
+                        bottom.linkTo(box.top)
+                        start.linkTo(box.start)
+                        end.linkTo(box.end)
+                    },
+                book = book
+            )
         }
-
+        Spacer(modifier = Modifier.height(15.dp))
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .weight(1f, true)
+        ) {
+            BookDescription(book)
+            VisitBook(
+                modifier = Modifier
+                    .padding(20.dp),
+                bookLink = book.link
+            )
+        }
     }
 }
 
@@ -189,7 +196,6 @@ fun ScreenHeader(
             Text(
                 text = stringResource(id = R.string.book_detail),
                 color = Color.Black,
-                fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
                 modifier = Modifier
                     .align(Center)
@@ -225,12 +231,13 @@ fun BookDescription(book: BooksModelEntity) {
 }
 
 @Composable
-fun VisitBook(bookLink: String) {
+fun VisitBook(
+    modifier: Modifier = Modifier,
+    bookLink: String,
+) {
     val context = LocalContext.current
     Box(
-        modifier = Modifier
-            .padding(20.dp)
-            .fillMaxSize(),
+        modifier = modifier,
         contentAlignment = BottomCenter
     ) {
         Button(
