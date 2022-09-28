@@ -33,6 +33,7 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.mhmdawad.booksapp.R
 import com.mhmdawad.booksapp.common.utils.Constants
+import com.mhmdawad.booksapp.common.utils.Screens
 import com.mhmdawad.booksapp.discover_books_screen.domain.model.BooksModelEntity
 import com.mhmdawad.booksapp.ui.theme.darkBlue
 import com.mhmdawad.booksapp.ui.theme.lightBlue
@@ -216,14 +217,14 @@ fun BookDescription(book: BooksModelEntity) {
             .padding(20.dp)
     ) {
         Text(
-            text = "Description",
+            text = stringResource(id = R.string.description),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             color = Color.Black
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "The ${book.title} has been written by \n${book.author} in ${book.year} at ${book.country}",
+            text = stringResource(id = R.string.book_description, book.title, book.author, book.year, book.country),
             color = Color.DarkGray,
             fontSize = 14.sp
         )
@@ -253,7 +254,7 @@ fun VisitBook(
                 }
             }) {
             Text(
-                text = "Visit Book",
+                text = stringResource(id = R.string.visit_book),
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
@@ -264,7 +265,7 @@ fun VisitBook(
 
 fun getDetailRoute(argument: String? = null): String {
     return if (argument == null)
-        "${Constants.DETAIL_SCREEN}/{${Constants.BOOK_ARGUMENT_MODEL}}"
+        "${Screens.DetailScreen.route}/{${Constants.BOOK_ARGUMENT_MODEL}}"
     else
-        "${Constants.DETAIL_SCREEN}/$argument"
+        "${Screens.DetailScreen.route}/$argument"
 }

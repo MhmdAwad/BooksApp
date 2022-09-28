@@ -14,8 +14,10 @@ import com.mhmdawad.booksapp.book_detail_screen.presentation.DetailScreen
 import com.mhmdawad.booksapp.book_detail_screen.presentation.getDetailRoute
 import com.mhmdawad.booksapp.common.utils.AssetParamType
 import com.mhmdawad.booksapp.common.utils.Constants
+import com.mhmdawad.booksapp.common.utils.Screens
 import com.mhmdawad.booksapp.discover_books_screen.domain.model.BooksModelEntity
 import com.mhmdawad.booksapp.discover_books_screen.presentation.DiscoverScreen
+import com.mhmdawad.booksapp.splash_screen.SplashScreen
 import com.mhmdawad.booksapp.ui.theme.BooksAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,9 +32,12 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Constants.DISCOVER_SCREEN
+                    startDestination = Screens.SplashScreen.route
                 ) {
-                    composable(route = Constants.DISCOVER_SCREEN) {
+                    composable(route = Screens.SplashScreen.route){
+                        SplashScreen(navController = navController)
+                    }
+                    composable(route = Screens.DiscoverScreen.route) {
                         DiscoverScreen(navController = navController)
                     }
                     composable(

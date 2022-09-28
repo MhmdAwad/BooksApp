@@ -34,7 +34,6 @@ import com.google.gson.Gson
 import com.mhmdawad.booksapp.R
 import com.mhmdawad.booksapp.book_detail_screen.presentation.getDetailRoute
 import com.mhmdawad.booksapp.discover_books_screen.domain.model.BooksModelEntity
-import com.mhmdawad.booksapp.ui.theme.Roboto
 import com.mhmdawad.booksapp.ui.theme.darkBlue
 import com.mhmdawad.booksapp.ui.theme.lightBlue
 
@@ -57,14 +56,13 @@ fun DiscoverScreen(
         CompositionLocalProvider(
             LocalOverscrollConfiguration provides null
         ) {
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
                 content = {
                     item {
                         Text(
-                            text = "Explore thousands of books with BooksApp",
+                            text = stringResource(id = R.string.explore),
                             style = TextStyle(
                                 color = Color.Black,
                                 fontSize = 28.sp,
@@ -87,7 +85,7 @@ fun DiscoverScreen(
                     }
                     item {
                         Text(
-                            text = "Discover Books",
+                            text = stringResource(id = R.string.discover_books),
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                         )
@@ -196,7 +194,7 @@ fun BookItemEntity(
                     .fillMaxSize()
             ) {
                 Text(
-                    text = "By ${book.author}",
+                    text = stringResource(id = R.string.auther, book.author),
                     color = Color.Gray,
                     fontSize = 12.sp,
                 )
@@ -277,7 +275,7 @@ fun SearchBox(
 
         if (isHintDisplayed)
             Text(
-                text = "Search for books...",
+                text = stringResource(id = R.string.search_book),
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Center)

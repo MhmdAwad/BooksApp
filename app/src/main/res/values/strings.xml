@@ -4,4 +4,11 @@
     <string name="no_book_found">No book found</string>
     <string name="try_again">Try again</string>
     <string name="book_detail">Book Detail</string>
+    <string name="visit_book">Visit Book</string>
+    <string name="description">Description</string>
+    <string name="book_description">The %s has been written by \n%s in %d at %s</string>
+    <string name="discover_books">Discover Books</string>
+    <string name="auther">By %s</string>
+    <string name="search_book">Search for books...</string>
+    <string name="explore">Explore thousands of books with BooksApp</string>
 </resources>
