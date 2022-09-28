@@ -70,6 +70,9 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+
+
     //coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'

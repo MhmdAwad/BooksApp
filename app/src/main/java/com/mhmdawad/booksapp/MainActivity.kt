@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         bookModel?.let {
-                            DetailScreen(it)
+                            DetailScreen(it, navController)
                         }
                     }
                 }

@@ -42,7 +42,7 @@ import com.mhmdawad.booksapp.ui.theme.lightBlue
 @ExperimentalFoundationApi
 fun DiscoverScreen(
     viewModel: BooksViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
 ) {
     val booksList by remember { viewModel.booksListState }
     val isLoading by remember { viewModel.isLoading }
@@ -63,7 +63,7 @@ fun DiscoverScreen(
                 content = {
                     item {
                         Text(
-                            text = "Explore thousands of books",
+                            text = "Explore thousands of books with BooksApp",
                             style = TextStyle(
                                 color = Color.Black,
                                 fontSize = 28.sp,
@@ -140,8 +140,7 @@ fun DiscoverScreen(
                             Text(
                                 text = stringResource(id = R.string.try_again),
                                 color = darkBlue,
-
-                                )
+                            )
                         }
                     }
                 }
@@ -150,12 +149,11 @@ fun DiscoverScreen(
     }
 }
 
-
 @Composable
 fun BookItemEntity(
     modifier: Modifier = Modifier,
     book: BooksModelEntity,
-    navController: NavController
+    navController: NavController,
 ) {
     Box(
         modifier = modifier
@@ -215,7 +213,7 @@ fun BookItemEntity(
                     ) {
                         Image(
                             painterResource(id = R.drawable.ic_pages),
-                            contentDescription = "Pages",
+                            contentDescription = null,
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -247,7 +245,7 @@ fun BookItemEntity(
 @Composable
 fun SearchBox(
     modifier: Modifier = Modifier,
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit,
 ) {
     var textFieldValue by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(true) }
