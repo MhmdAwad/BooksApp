@@ -114,6 +114,8 @@ fun DiscoverScreen(
                     CircularProgressIndicator()
                 }
 
+
+
             if (errorOccurred.isNotBlank())
                 Box(
                     modifier = Modifier
